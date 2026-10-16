@@ -1,0 +1,153 @@
+% =============================================================================
+%  main.tex — arquivo principal das anotações (formato livro)
+% -----------------------------------------------------------------------------
+%  Todos os pacotes, comandos e ambientes estão em preambulo.tex.
+%  Compilação: pdflatex -> bibtex -> pdflatex -> pdflatex
+%  (ou simplesmente: latexmk -pdf main.tex)
+% =============================================================================
+\documentclass[11pt,a4paper,oneside,openany]{book}
+
+\input{preambulo}
+
+\title{Título das Anotações}
+\author{Igor}
+\date{\today}
+
+\begin{document}
+
+% -----------------------------------------------------------------------------
+% Parte inicial: capa e sumário (páginas em algarismos romanos)
+% -----------------------------------------------------------------------------
+\frontmatter
+\maketitle
+\tableofcontents
+
+% -----------------------------------------------------------------------------
+% Conteúdo principal
+% -----------------------------------------------------------------------------
+\mainmatter
+
+% =============================================================================
+\chapter{Primeiro Capítulo}\label{cap:primeiro}
+% =============================================================================
+
+Este capítulo traz exemplos rápidos dos ambientes do template. Apague o que não
+precisar e comece a escrever. Para dicas de escrita em \LaTeX, veja \cite{evanchen,gleave}.
+
+\section{Definições e resultados}
+
+\begin{definition}{Complexidade de tempo}{complexidade}
+Dizemos que um algoritmo tem complexidade $\bigO{f(n)}$ se existem constantes
+$c>0$ e $n_0\in\N$ tais que o número de passos $T(n)$ satisfaz $T(n)\le c\,f(n)$
+para todo $n\ge n_0$.
+\end{definition}
+
+\begin{theorem}{Soma de Gauss}{gauss}
+Para todo $n\in\N$,
+\begin{equation}\label{eq:gauss}
+    \sumkn k=\frac{n(n+1)}{2}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Por indução em $n$. O caso $n=1$ é imediato; o passo indutivo segue somando $n+1$
+aos dois lados de \eqref{eq:gauss}.
+\end{proof}
+
+\begin{corollary}{}{gauss_on2}
+O laço duplo \code{for i in range(n): for j in range(i)} executa $\bigTheta{n^2}$ iterações.
+\end{corollary}
+
+Note que o \Cref{gauss_on2} segue diretamente do \Cref{gauss} e da \Cref{complexidade}.
+
+\begin{remark}
+Os ambientes \texttt{definition}, \texttt{proposition}, \texttt{theorem},
+\texttt{lemma} e \texttt{corollary} recebem dois argumentos: o título (pode ficar vazio)
+e o rótulo usado no \verb!\Cref!.
+\end{remark}
+
+\begin{warning}
+Cuidado com o caso base em provas por indução!
+\end{warning}
+
+\section{Código e algoritmos}
+
+\begin{lstlisting}[language=Python,caption={Busca binária},label={cod:busca}]
+def busca_binaria(v, x):
+    lo, hi = 0, len(v) - 1
+    while lo <= hi:
+        meio = (lo + hi) // 2      # índice do meio
+        if v[meio] == x:
+            return meio
+        elif v[meio] < x:
+            lo = meio + 1
+        else:
+            hi = meio - 1
+    return -1
+\end{lstlisting}
+
+\begin{algorithm}[htbp]
+\caption{Busca binária}\label{alg:busca}
+\begin{algorithmic}[1]
+\Require vetor ordenado $v[0..n-1]$ e valor $x$
+\Ensure índice de $x$ em $v$, ou $-1$
+\State $lo \gets 0$, \; $hi \gets n-1$
+\While{$lo \le hi$}
+    \State $m \gets \floor{(lo+hi)/2}$
+    \If{$v[m] = x$} \State \Return $m$
+    \ElsIf{$v[m] < x$} \State $lo \gets m+1$
+    \Else \State $hi \gets m-1$
+    \EndIf
+\EndWhile
+\State \Return $-1$
+\end{algorithmic}
+\end{algorithm}
+
+O \Cref{alg:busca} (implementado no \Cref{cod:busca}) roda em $\bigO{\log n}$.
+
+\begin{example}
+Em $v=(1,3,5,7,9)$ com $x=7$, a busca examina $v[2]=5$ e depois $v[3]=7$.
+\end{example}
+
+\begin{filingbox}[tcol_THM]{Resumo}
+Caixas como esta (\texttt{filingbox}, \texttt{railingbox}, \texttt{flagbox}) são
+ótimas para resumos ao fim de uma seção.
+\end{filingbox}
+
+\remind{TODO: completar este capítulo.}
+
+% =============================================================================
+\chapter{Segundo Capítulo}\label{cap:segundo}
+% =============================================================================
+
+\section{Primeira seção}
+
+Escreva aqui.
+
+\section{Segunda seção}
+
+Escreva aqui.
+
+% =============================================================================
+\chapter{Terceiro Capítulo}\label{cap:terceiro}
+% =============================================================================
+
+\section{Primeira seção}
+
+Escreva aqui.
+
+\section{Segunda seção}
+
+Escreva aqui.
+
+% -----------------------------------------------------------------------------
+% Para novos capítulos, copie o bloco acima ou crie arquivos separados e use
+% \input{capitulos/cap04} (por exemplo).
+% -----------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------
+% Parte final: referências (edite bibliography.bib)
+% -----------------------------------------------------------------------------
+\backmatter
+\printbibliography[heading=bibintoc,title={Referências}]
+
+\end{document}
